@@ -31,4 +31,14 @@ public class Topic {
         this.name = name;
         this.subject = subject;
     }
+
+    public void addAtachment(Attachment attachment) {
+        try{
+            attachments.add(attachment);
+            System.out.println("attachment added");
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+
+    }
 }
