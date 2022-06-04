@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -6,6 +7,8 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  static const appMethodChannel = MethodChannel('appMethodChannel');
 
   // This widget is the root of your application.
   @override
@@ -26,6 +29,12 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
+  }
+
+  Future<Null> saveState() async {
+    try {
+    await appMethodChannel.invokeMethod('saveState');
+    } on Exception catch (e) {}
   }
 }
 
@@ -49,6 +58,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
+  void _saveState() {
+
+  }
 
   void _incrementCounter() {
     setState(() {

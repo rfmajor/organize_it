@@ -7,6 +7,21 @@ public abstract class Task {
     private Topic topic;
     private TaskStatus status;
 
+    public Task() {
+    }
+
+    public static abstract class TaskBuilder {
+        private Task task;
+
+        public abstract TaskBuilder setTitle(String title);
+
+        public abstract TaskBuilder setTopic(Topic topic);
+
+        public abstract TaskBuilder setStatus(TaskStatus status);
+
+        public abstract Task build();
+    }
+
     public String getTitle() {
         return title;
     }
