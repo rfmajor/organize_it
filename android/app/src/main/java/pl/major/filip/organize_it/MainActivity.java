@@ -23,5 +23,6 @@ public class MainActivity extends FlutterActivity {
         TaskListControllerHandler handler = new TaskListControllerHandler(taskListController);
 
         methodChannel.setMethodCallHandler(handler);
+
     }
 }
