@@ -18,6 +18,12 @@ public class SimpleTaskListController implements TaskListController<SimpleTask> 
     }
 
     @Override
+    public void updateTask(SimpleTask oldTask, SimpleTask newTask) {
+        int i = tasks.indexOf(oldTask);
+        tasks.set(i, newTask);
+    }
+
+    @Override
     public void deleteTask(SimpleTask task) {
         tasks.remove(task);
     }

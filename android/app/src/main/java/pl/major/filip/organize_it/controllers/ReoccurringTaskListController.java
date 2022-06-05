@@ -18,6 +18,12 @@ public class ReoccurringTaskListController implements TaskListController<Reoccur
     }
 
     @Override
+    public void updateTask(ReoccurringTask oldTask, ReoccurringTask newTask) {
+        int i = tasks.indexOf(oldTask);
+        tasks.set(i, newTask);
+    }
+
+    @Override
     public void deleteTask(ReoccurringTask task) {
         tasks.remove(task);
     }
