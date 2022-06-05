@@ -1,6 +1,11 @@
 package pl.major.filip.organize_it.model.task;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.time.LocalDate;
+import java.util.Objects;
 
 import pl.major.filip.organize_it.model.topic.Topic;
 
@@ -9,6 +14,21 @@ public class SimpleTask extends Task {
 
     public SimpleTask() {
         super();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void updateStatus() {
+        LocalDate now = LocalDate.now();
+        if (now.isBefore(date)) {
+            setStatus(TaskStatus.SCHEDULED);
+        }
+        else if (now.isEqual(date)) {
+            setStatus(TaskStatus.ACTIVE);
+        }
+        else if (now.isAfter(date)) {
+            setStatus(TaskStatus.FINISHED);
+        }
     }
 
     private SimpleTask(SimpleTaskBuilder builder) {
@@ -66,5 +86,21 @@ public class SimpleTask extends Task {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimpleTask that = (SimpleTask) o;
+        return Objects.equals(date, that.date) && Objects.equals(getTitle(), that.getTitle())
+                && Objects.equals(getTopic(), that.getTopic()) && getStatus() == that.getStatus();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, getTitle(), getTopic(), getStatus());
     }
 }

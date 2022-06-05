@@ -8,13 +8,13 @@ import java.io.ObjectOutputStream;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import pl.major.filip.organize_it.controllers.TaskListController;
+import pl.major.filip.organize_it.controllers.ReoccurringTaskListController;
 
 public class TaskListControllerHandler implements MethodChannel.MethodCallHandler {
 
-    private TaskListController controller;
+    private ReoccurringTaskListController controller;
 
-    public TaskListControllerHandler(TaskListController controller) {
+    public TaskListControllerHandler(ReoccurringTaskListController controller) {
         this.controller = controller;
     }
 
@@ -30,7 +30,7 @@ public class TaskListControllerHandler implements MethodChannel.MethodCallHandle
     public void saveState() {
         try (FileOutputStream fos = new FileOutputStream("yourfile.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(controller.getTasks());
+            oos.writeObject(controller);
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }

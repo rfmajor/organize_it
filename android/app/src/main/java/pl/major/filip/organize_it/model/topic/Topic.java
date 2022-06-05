@@ -1,11 +1,11 @@
 package pl.major.filip.organize_it.model.topic;
 
-import java.util.HashSet;
+import java.util.List;
 
 public class Topic {
     private String name;
     private String subject;
-    private HashSet<Attachment> attachments;
+    private List<Note> notes;
 
     public Topic(String name) {
         this.name = name;
@@ -27,18 +27,16 @@ public class Topic {
         this.subject = subject;
     }
 
+    public List<Note> getNotes() {
+        return notes;
+    }
+
     public Topic(String name, String subject) {
         this.name = name;
         this.subject = subject;
     }
 
-    public void addAtachment(Attachment attachment) {
-        try{
-            attachments.add(attachment);
-            System.out.println("attachment added");
-        } catch(Exception e) {
-            System.out.println(e);
-        }
-
+    public void addNote(Note note) {
+        notes.add(note);
     }
 }
