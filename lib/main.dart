@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:organize_it/addNote.dart';
+import 'package:organize_it/editNote.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -72,13 +74,24 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNote()));
         },),
       body: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+
+          itemCount: 10, // nr of displayed notes
           itemBuilder: (_,index){
-        return Container(
-          margin: EdgeInsets.all(10),
-          height: 150,
-          color: Colors.grey[200],
-        );
-          }),
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_)=>EditNote(/*note[index]*/)));
+          },
+          child:Container(
+            margin: EdgeInsets.all(10),
+            height: 150,
+            color: Colors.grey[200],
+            child: Column(
+              children: [
+                Text('Task') // note tittle
+              ],
+            )
+          ),);
+      }),
     );
   }
 }
