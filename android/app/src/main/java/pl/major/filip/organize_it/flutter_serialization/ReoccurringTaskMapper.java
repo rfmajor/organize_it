@@ -61,6 +61,8 @@ public class ReoccurringTaskMapper implements TaskMapper<ReoccurringTask> {
 
         Set<DayOfWeek> daysOfWeek = ReoccurringTask.getDaysOfWeekFromString((String) map.get("daysOfWeek"));
 
+        Topic topic = new Topic(topicName, topicSubject);
+
         List<Note> notes = new ArrayList<>();
         map.forEach((name, val) -> {
             if (name.contains("note") ) {
@@ -70,11 +72,14 @@ public class ReoccurringTaskMapper implements TaskMapper<ReoccurringTask> {
                 String noteTitle = split[0].substring(6);
                 String noteDescription = split[1].substring(12);
 
-                notes.add(new Note(id, noteTitle, noteDescription));
+                Note note = new Note(id, noteTitle, noteDescription);
+                note.setTopic(topic);
+
+                notes.add(note);
             }
         });
 
-        Topic topic = new Topic(topicName, topicSubject);
+        topic.setNotes(notes);
 
         return ReoccurringTask.builder()
                 .setTitle(title)

@@ -50,6 +50,8 @@ public class SimpleTaskMapper implements TaskMapper<SimpleTask> {
         LocalDate date = LocalDate.parse((String) map.get("date"));
         TaskStatus status = TaskStatus.values()[(int) map.get("status")];
 
+        Topic topic = new Topic(topicName, topicSubject);
+
         List<Note> notes = new ArrayList<>();
         map.forEach((name, val) -> {
             if (name.contains("note") ) {
@@ -59,11 +61,13 @@ public class SimpleTaskMapper implements TaskMapper<SimpleTask> {
                 String noteTitle = split[0].substring(6);
                 String noteDescription = split[1].substring(12);
 
-                notes.add(new Note(id, noteTitle, noteDescription));
+                Note note = new Note(id, noteTitle, noteDescription);
+                note.setTopic(topic);
+
+                notes.add(note);
             }
         });
-
-        Topic topic = new Topic(topicName, topicSubject);
+        topic.setNotes(notes);
 
         return SimpleTask.builder()
                 .setTitle(title)
