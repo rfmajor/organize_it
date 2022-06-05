@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:organize_it/addNote.dart';
 import 'package:organize_it/editNote.dart';
+import 'package:flutter/services.dart';
+import 'package:organize_it/globals.dart' as globals;
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());

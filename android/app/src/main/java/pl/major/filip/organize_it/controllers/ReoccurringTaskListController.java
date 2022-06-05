@@ -4,13 +4,14 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.major.filip.organize_it.model.task.ReoccurringTask;
 import pl.major.filip.organize_it.model.task.TaskStatus;
 
 public class ReoccurringTaskListController implements TaskListController<ReoccurringTask> {
-    private List<ReoccurringTask> tasks;
+    private List<ReoccurringTask> tasks = new ArrayList<>();
 
     @Override
     public void addTask(ReoccurringTask task) {
@@ -38,5 +39,10 @@ public class ReoccurringTaskListController implements TaskListController<Reoccur
     public void cancelTask(ReoccurringTask task) {
         int i = tasks.indexOf(task);
         tasks.get(i).setStatus(TaskStatus.CANCELLED);
+    }
+
+    @Override
+    public List<ReoccurringTask> getTasks() {
+        return tasks;
     }
 }
