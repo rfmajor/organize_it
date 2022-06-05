@@ -44,73 +44,76 @@ public class TaskListControllerHandler implements MethodChannel.MethodCallHandle
             reoccurringTaskController.refresh();
             return;
         }
-
-        Map<String, String> args = (Map<String, String>) call.arguments;
-
-        if (call.method.equals("saveState")) {
-            saveState();
-        }
-        else if (call.method.equals("addTask")) {
-            if (isSimpleTask(args)) {
-                SimpleTask simpleTask = simpleMapper.mapToTask(args);
-                simpleTaskController.addTask(simpleTask);
-            }
-            else {
-                ReoccurringTask reoccurringTask = reoccurringMapper.mapToTask(args);
-                reoccurringTaskController.addTask(reoccurringTask);
-            }
-        }
         else if (call.method.equals("updateTask")) {
-            if (isSimpleTask(args)) {
-                SimpleTask simpleTask = simpleMapper.mapToTask(args);
-                // TODO: 05.06.2022 implement this properly
-                simpleTaskController.updateTask(simpleTask, simpleTask);
-            }
-            else {
-                ReoccurringTask reoccurringTask = reoccurringMapper.mapToTask(args);
-                // TODO: 05.06.2022 this as well
-                reoccurringTaskController.updateTask(reoccurringTask, reoccurringTask);
-            }
-        }
-        else if (call.method.equals("deleteTask")) {
-            if (isSimpleTask(args)) {
-                SimpleTask simpleTask = simpleMapper.mapToTask(args);
-                simpleTaskController.deleteTask(simpleTask);
-            }
-            else {
-                ReoccurringTask reoccurringTask = reoccurringMapper.mapToTask(args);
-                reoccurringTaskController.deleteTask(reoccurringTask);
-            }
-        }
-        else if (call.method.equals("cancel")) {
-            if (isSimpleTask(args)) {
-                SimpleTask simpleTask = simpleMapper.mapToTask(args);
-                simpleTaskController.cancelTask(simpleTask);
-            }
-            else {
-                ReoccurringTask reoccurringTask = reoccurringMapper.mapToTask(args);
-                reoccurringTaskController.cancelTask(reoccurringTask);
-            }
-        }
-        else if (call.method.equals("getTasks")) {
-            List<Map<String, String>> tasks = new ArrayList<>();
-            tasks.addAll(
-                    simpleTaskController
-                            .getTasks()
-                            .stream()
-                            .map(simpleMapper::taskToMap)
-                            .collect(Collectors.toList()));
-            tasks.addAll(
-                    reoccurringTaskController
-                            .getTasks()
-                            .stream()
-                            .map(reoccurringMapper::taskToMap)
-                            .collect(Collectors.toList()));
+            Map<String, String> oldTask = (Map<String, String>) call.argument("oldTask");
+            Map<String, String> newTask = (Map<String, String>) call.argument("newTask");
 
-            result.success(tasks);
+            if (isSimpleTask(oldTask)) {
+                SimpleTask newSimpleTask = simpleMapper.mapToTask(newTask);
+                SimpleTask oldSimpleTask = simpleMapper.mapToTask(oldTask);
+                simpleTaskController.updateTask(oldSimpleTask, newSimpleTask);
+            }
+            else {
+                ReoccurringTask newReoccurringTask = reoccurringMapper.mapToTask(newTask);
+                ReoccurringTask oldReoccurringTask = reoccurringMapper.mapToTask(oldTask);
+                reoccurringTaskController.updateTask(oldReoccurringTask, newReoccurringTask);
+            }
+            return;
         }
-        else {
-            result.notImplemented();
+
+        Map<String, String> task = (Map<String, String>) call.argument("task");
+
+        switch (call.method) {
+            case "saveState":
+                saveState();
+                break;
+            case "addTask":
+                if (isSimpleTask(task)) {
+                    SimpleTask simpleTask = simpleMapper.mapToTask(task);
+                    simpleTaskController.addTask(simpleTask);
+                } else {
+                    ReoccurringTask reoccurringTask = reoccurringMapper.mapToTask(task);
+                    reoccurringTaskController.addTask(reoccurringTask);
+                }
+                break;
+            case "deleteTask":
+                if (isSimpleTask(task)) {
+                    SimpleTask simpleTask = simpleMapper.mapToTask(task);
+                    simpleTaskController.deleteTask(simpleTask);
+                } else {
+                    ReoccurringTask reoccurringTask = reoccurringMapper.mapToTask(task);
+                    reoccurringTaskController.deleteTask(reoccurringTask);
+                }
+                break;
+            case "cancel":
+                if (isSimpleTask(task)) {
+                    SimpleTask simpleTask = simpleMapper.mapToTask(task);
+                    simpleTaskController.cancelTask(simpleTask);
+                } else {
+                    ReoccurringTask reoccurringTask = reoccurringMapper.mapToTask(task);
+                    reoccurringTaskController.cancelTask(reoccurringTask);
+                }
+                break;
+            case "getTasks":
+                List<Map<String, String>> tasks = new ArrayList<>();
+                tasks.addAll(
+                        simpleTaskController
+                                .getTasks()
+                                .stream()
+                                .map(simpleMapper::taskToMap)
+                                .collect(Collectors.toList()));
+                tasks.addAll(
+                        reoccurringTaskController
+                                .getTasks()
+                                .stream()
+                                .map(reoccurringMapper::taskToMap)
+                                .collect(Collectors.toList()));
+
+                result.success(tasks);
+                break;
+            default:
+                result.notImplemented();
+                break;
         }
     }
 
