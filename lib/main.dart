@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:organize_it/globals.dart' as globals;
 import 'dart:async';
 
 void main() {

@@ -24,17 +24,11 @@ import pl.major.filip.organize_it.model.task.SimpleTask;
 
 public class TaskListControllerHandler implements MethodChannel.MethodCallHandler {
 
-    private ReoccurringTaskListController reoccurringTaskController;
-    private SimpleTaskListController simpleTaskController;
+    private final ReoccurringTaskListController reoccurringTaskController = new ReoccurringTaskListController();
+    private final SimpleTaskListController simpleTaskController = new SimpleTaskListController();
 
     private final ReoccurringTaskMapper reoccurringMapper = new ReoccurringTaskMapper();
     private final SimpleTaskMapper simpleMapper = new SimpleTaskMapper();
-
-    public TaskListControllerHandler(ReoccurringTaskListController reoccurringTaskController,
-                                     SimpleTaskListController simpleTaskController) {
-        this.reoccurringTaskController = reoccurringTaskController;
-        this.simpleTaskController = simpleTaskController;
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
