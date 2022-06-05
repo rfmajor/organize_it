@@ -17,8 +17,8 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import pl.major.filip.organize_it.controllers.ReoccurringTaskListController;
 import pl.major.filip.organize_it.controllers.SimpleTaskListController;
-import pl.major.filip.organize_it.flutter_serialization.ReoccurringTaskMapper;
-import pl.major.filip.organize_it.flutter_serialization.SimpleTaskMapper;
+import pl.major.filip.organize_it.flutter_mappers.ReoccurringTaskMapper;
+import pl.major.filip.organize_it.flutter_mappers.SimpleTaskMapper;
 import pl.major.filip.organize_it.model.task.ReoccurringTask;
 import pl.major.filip.organize_it.model.task.SimpleTask;
 

@@ -1,4 +1,4 @@
-package pl.major.filip.organize_it.flutter_serialization;
+package pl.major.filip.organize_it.flutter_mappers;
 
 import java.util.Map;
 
