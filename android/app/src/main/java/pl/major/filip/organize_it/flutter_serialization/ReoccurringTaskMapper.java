@@ -20,8 +20,8 @@ import pl.major.filip.organize_it.model.topic.Topic;
 public class ReoccurringTaskMapper implements TaskMapper<ReoccurringTask> {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public Map<String, Object> taskToMap(ReoccurringTask task) {
-        Map<String, Object> map = new HashMap<>();
+    public Map<String, String> taskToMap(ReoccurringTask task) {
+        Map<String, String> map = new HashMap<>();
         map.put("type", "reoccurring");
 
         map.put("title", task.getTitle());
@@ -35,7 +35,7 @@ public class ReoccurringTaskMapper implements TaskMapper<ReoccurringTask> {
 
         map.put("daysOfWeek", task.getDaysOfWeekString());
 
-        map.put("status", task.getStatus().ordinal());
+        map.put("status", String.valueOf(task.getStatus().ordinal()));
 
         List<Note> notes = topic.getNotes();
         for (Note note : notes) {
@@ -49,25 +49,24 @@ public class ReoccurringTaskMapper implements TaskMapper<ReoccurringTask> {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public ReoccurringTask mapToTask(Map<String, Object> map) {
-        String title = (String) map.get("title");
-        String topicName = (String) map.get("topicName");
-        String topicSubject = (String) map.get("topicSubject");
+    public ReoccurringTask mapToTask(Map<String, String> map) {
+        String title = map.get("title");
+        String topicName = map.get("topicName");
+        String topicSubject = map.get("topicSubject");
 
-        LocalDate startDate = LocalDate.parse((String) map.get("startDate"));
-        LocalDate endDate = LocalDate.parse((String) map.get("endDate"));
+        LocalDate startDate = LocalDate.parse(map.get("startDate"));
+        LocalDate endDate = LocalDate.parse(map.get("endDate"));
 
-        TaskStatus status = TaskStatus.values()[(int) map.get("status")];
+        TaskStatus status = TaskStatus.values()[Integer.parseInt(map.get("status"))];
 
-        Set<DayOfWeek> daysOfWeek = ReoccurringTask.getDaysOfWeekFromString((String) map.get("daysOfWeek"));
+        Set<DayOfWeek> daysOfWeek = ReoccurringTask.getDaysOfWeekFromString(map.get("daysOfWeek"));
 
         Topic topic = new Topic(topicName, topicSubject);
 
         List<Note> notes = new ArrayList<>();
-        map.forEach((name, val) -> {
+        map.forEach((name, noteContent) -> {
             if (name.contains("note") ) {
                 int id = Integer.parseInt(name.substring(4));
-                String noteContent = (String) val;
                 String[] split = noteContent.split(";");
                 String noteTitle = split[0].substring(6);
                 String noteDescription = split[1].substring(12);

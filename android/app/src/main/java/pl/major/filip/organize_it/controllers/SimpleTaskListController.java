@@ -4,13 +4,14 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.major.filip.organize_it.model.task.SimpleTask;
 import pl.major.filip.organize_it.model.task.TaskStatus;
 
 public class SimpleTaskListController implements TaskListController<SimpleTask> {
-    private List<SimpleTask> tasks;
+    private final List<SimpleTask> tasks = new ArrayList<>();
 
     @Override
     public void addTask(SimpleTask task) {
@@ -38,5 +39,10 @@ public class SimpleTaskListController implements TaskListController<SimpleTask> 
     public void cancelTask(SimpleTask task) {
         int i = tasks.indexOf(task);
         tasks.get(i).setStatus(TaskStatus.CANCELLED);
+    }
+
+    @Override
+    public List<SimpleTask> getTasks() {
+        return tasks;
     }
 }
