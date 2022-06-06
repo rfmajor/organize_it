@@ -90,19 +90,16 @@ public class TaskListControllerHandler implements MethodChannel.MethodCallHandle
                 break;
             case "getTasks":
                 List<Map<String, String>> tasks = new ArrayList<>();
-                tasks.addAll(
-                        simpleTaskController
-                                .getTasks()
-                                .stream()
-                                .map(simpleMapper::taskToMap)
-                                .collect(Collectors.toList()));
-                tasks.addAll(
-                        reoccurringTaskController
-                                .getTasks()
-                                .stream()
-                                .map(reoccurringMapper::taskToMap)
-                                .collect(Collectors.toList()));
-
+                simpleTaskController
+                        .getTasks()
+                        .stream()
+                        .map(simpleMapper::taskToMap)
+                        .forEach(tasks::add);
+                reoccurringTaskController
+                        .getTasks()
+                        .stream()
+                        .map(reoccurringMapper::taskToMap)
+                        .forEach(tasks::add);
                 result.success(tasks);
                 break;
             default:
