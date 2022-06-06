@@ -11,24 +11,28 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+import pl.major.filip.organize_it.controllers.NoteListController;
 import pl.major.filip.organize_it.controllers.ReoccurringTaskListController;
 import pl.major.filip.organize_it.controllers.SimpleTaskListController;
+import pl.major.filip.organize_it.flutter_mappers.NoteMapper;
 import pl.major.filip.organize_it.flutter_mappers.ReoccurringTaskMapper;
 import pl.major.filip.organize_it.flutter_mappers.SimpleTaskMapper;
 import pl.major.filip.organize_it.model.task.ReoccurringTask;
 import pl.major.filip.organize_it.model.task.SimpleTask;
+import pl.major.filip.organize_it.model.topic.Note;
 
 public class TaskListControllerHandler implements MethodChannel.MethodCallHandler {
 
     private final ReoccurringTaskListController reoccurringTaskController = new ReoccurringTaskListController();
     private final SimpleTaskListController simpleTaskController = new SimpleTaskListController();
+    private final NoteListController noteListController = new NoteListController();
 
     private final ReoccurringTaskMapper reoccurringMapper = new ReoccurringTaskMapper();
     private final SimpleTaskMapper simpleMapper = new SimpleTaskMapper();
+    private final NoteMapper noteMapper = new NoteMapper();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -102,6 +106,9 @@ public class TaskListControllerHandler implements MethodChannel.MethodCallHandle
                         .forEach(tasks::add);
                 result.success(tasks);
                 break;
+            case "addNote":
+                Note note = noteMapper.mapToNote(task);
+                noteListController.addNote(note);
             default:
                 result.notImplemented();
                 break;

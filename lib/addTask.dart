@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:organize_it/globals.dart' as globals;
 
-class AddNote extends StatelessWidget {
+class AddTask extends StatelessWidget {
 
-  //bind with controllers
   TextEditingController title = TextEditingController();
   TextEditingController content = TextEditingController();
 
@@ -13,11 +12,6 @@ class AddNote extends StatelessWidget {
       appBar: AppBar(
         actions: [
           FlatButton(onPressed: (){
-            globals.noteController.addNote({"title": title.text, "content": content.text});
-            // on pressed
-
-            Navigator.pop(context); // gp back to menu upon saving
-
 
           }, child: Text('Save'))
         ],
@@ -30,22 +24,17 @@ class AddNote extends StatelessWidget {
               decoration: BoxDecoration(border: Border.all()),
               child: TextField(
                 controller: title,
-
                 decoration: InputDecoration(hintText: 'Title'),
               ),
             ),
             SizedBox(height: 10,),
-            Expanded(child:
-              Container(
-                decoration: BoxDecoration(border: Border.all()),
-                child: TextField(
-                  controller: content,
-                  maxLines: null,
-                  expands: true,
-                  decoration: InputDecoration(hintText: 'Content'),
-                ),
+            Expanded(child: Container(
+              decoration: BoxDecoration(border: Border.all()),
+              child: TextField(
+                controller: content,
+                decoration: InputDecoration(hintText: 'Content'),
               ),
-            ),
+            ))
           ],
         ),
       ),

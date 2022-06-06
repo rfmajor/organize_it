@@ -63,4 +63,23 @@ class TaskListController {
 
     }
   }
+
+  List<Map<String, String>> getTasksList() {
+    return tasks;
+  }
+}
+
+class NoteListController {
+  List<Map<String, String>> notes = [];
+  static const methodChannel = MethodChannel('javaMethodChannel');
+  static const equality = MapEquality();
+
+  Future<Null> addNote(Map<String, String> note) async {
+    try {
+      await methodChannel.invokeMethod('addNote', note);
+    } on Exception catch (e) {
+
+    }
+    notes.add(note);
+  }
 }

@@ -4,4 +4,5 @@ import 'dart:async';
 
 import 'package:organize_it/controllers.dart';
 
-TaskListController controller = TaskListController();
+TaskListController taskController = TaskListController();
+NoteListController noteController = NoteListController();

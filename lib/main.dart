@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:organize_it/globals.dart' as globals;
 import 'dart:async';
 
+import 'addTask.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -68,14 +70,41 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void updateView() {
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Organize_it!'),),
-      floatingActionButton: FloatingActionButton(child: Icon(Icons.add),
-        onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNote()));
-        },),
+      floatingActionButton: Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned(
+              left: 40,
+              bottom: 20,
+              child: FloatingActionButton(
+                heroTag: "add_task",
+                child: Icon(Icons.add_task),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>AddTask()));
+                },
+              )),
+          Positioned(
+              right: 40,
+              bottom: 20,
+              child: FloatingActionButton(
+                heroTag: "add_note",
+                child: Icon(Icons.note_add),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNote()));
+                },
+              ))
+        ],
+      ),
       body: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
 
           itemCount: 10, // nr of displayed notes
@@ -88,10 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
             margin: EdgeInsets.all(10),
             height: 150,
             color: Colors.grey[200],
-            child: Column(
-              children: [
-                Text('Task') // note tittle
-              ],
+            child: ListTile(
+              title: Text("Title"),
             )
           ),);
       }),

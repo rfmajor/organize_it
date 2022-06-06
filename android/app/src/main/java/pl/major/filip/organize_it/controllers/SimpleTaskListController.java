@@ -6,12 +6,21 @@ import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import pl.major.filip.organize_it.model.task.SimpleTask;
 import pl.major.filip.organize_it.model.task.TaskStatus;
 
 public class SimpleTaskListController implements TaskListController<SimpleTask> {
-    private final List<SimpleTask> tasks = new ArrayList<>();
+    private final List<SimpleTask> tasks;
+
+    public SimpleTaskListController(List<SimpleTask> tasks) {
+        this.tasks = tasks;
+    }
+
+    public SimpleTaskListController() {
+        tasks = new ArrayList<>();
+    }
 
     @Override
     public void addTask(SimpleTask task) {
@@ -21,6 +30,9 @@ public class SimpleTaskListController implements TaskListController<SimpleTask> 
     @Override
     public void updateTask(SimpleTask oldTask, SimpleTask newTask) {
         int i = tasks.indexOf(oldTask);
+        if (i == -1) {
+            throw new NoSuchElementException();
+        }
         tasks.set(i, newTask);
     }
 
